@@ -69,7 +69,6 @@ async function newFlight(req, res) {
     let localISOTime = new Date(oneYearFromNow - offset).toISOString().slice(0, 16)
     res.render('flights/new', {
       title: 'Add Flight',
-      defaultDate: localISOTime
     })
   } catch (error) {
     console.log(error)

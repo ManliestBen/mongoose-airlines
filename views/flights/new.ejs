@@ -1,5 +1,6 @@
 <%- include('../partials/html-head') %>
 <link rel="stylesheet" href="/stylesheets/flights/new.css">
+<script defer src="/javascripts/date-helpers.js"></script>
 <%- include('../partials/nav') %>
 
 <main>
@@ -22,7 +23,7 @@
     <label for="flight-num-input">Flight No:</label>
     <input type="number" required name="flightNo" id="flight-num-input" min="10" max="9999">
     <label for="departs-input">Departure:</label>
-    <input type="datetime-local" value="<%= defaultDate %>" name="departs" id="departs-input">
+    <input type="datetime-local" name="departs" id="departs-input">
     <button type="submit">Add Flight 🛫</button>
   </form>
 </main>
