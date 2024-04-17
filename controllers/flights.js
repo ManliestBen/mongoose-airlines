@@ -1,4 +1,5 @@
 import { Flight } from "../models/flight.js"
+import { Meal } from "../models/meal.js"
 
 async function index(req, res) {
   try {
@@ -15,10 +16,12 @@ async function index(req, res) {
 
 async function show(req, res) {
   try {
-    const flight = await Flight.findById(req.params.flightId)
+    const flight = await Flight.findById(req.params.flightId).populate('meals')
+    const mealsNotInFlight = await Meal.find({_id: {$nin: flight.meals}})
     res.render('flights/show', {
       flight,
-      title: 'Flight Details'
+      title: 'Flight Details',
+      mealsNotInFlight
     })
   } catch (error) {
     console.log(error)
@@ -79,7 +82,6 @@ async function edit(req, res) {
     const flight = await Flight.findById(req.params.flightId)
     let offset = new Date().getTimezoneOffset() * 60000
     let localISOTime = new Date(flight.departs - offset).toISOString().slice(0, 16)
-    console.log(localISOTime)
     res.render('flights/edit', {
       title: 'Edit Flight',
       flight,
@@ -115,6 +117,18 @@ async function deleteTicket(req, res) {
   }
 }
 
+async function addMeal(req, res) {
+  try {
+    let flight = await Flight.findById(req.params.flightId)
+    flight.meals.push(req.body.mealId)
+    await flight.save()
+    res.redirect(`/flights/${flight._id}`)
+  } catch (error) {
+    console.log(error)
+    res.redirect('/flights')
+  }
+}
+
 export {
   index,
   show,
@@ -124,5 +138,6 @@ export {
   edit,
   newFlight as new,
   createTicket,
-  deleteTicket
+  deleteTicket,
+  addMeal
 }

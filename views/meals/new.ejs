@@ -1,0 +1,25 @@
+<%- include('../partials/html-head') %>
+<link rel="stylesheet" href="/stylesheets/meals/new.css">
+<%- include('../partials/nav') %>
+
+<main>
+  <h1><%= title %></h1>
+  <h3>Before adding a new meal, please verify that it is not on the list!</h3>
+  <form action="/meals" method="POST">
+    <label for="meal-name">Meal:</label>
+    <input type="text" name="name" id="meal-name">
+    <button type="submit">Add Meal 🍴</button>
+  </form>
+  <% if (meals.length) { %>
+    <h2>Existing Meals:</h2>
+    <ul>
+      <% meals.forEach(meal => { %>
+        <li><%= meal.name %></li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <h3>No meals have been added yet!</h3>
+  <% } %>
+</main>
+
+<%- include('../partials/footer') %>

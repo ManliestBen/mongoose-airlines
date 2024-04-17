@@ -13,6 +13,17 @@ async function newMeal(req, res) {
   }
 }
 
+async function create(req, res) {
+  try {
+    await Meal.create(req.body)
+    res.redirect('/meals/new')
+  } catch (error) {
+    console.log(error)
+    res.redirect('/flights')
+  }
+}
+
 export {
-  newMeal as new
+  newMeal as new,
+  create
 }
