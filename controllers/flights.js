@@ -31,6 +31,9 @@ async function show(req, res) {
 
 async function create(req, res) {
   try {
+    if (req.body.departs === '') {
+      req.body.departs = req.body.currentLocalDateTime
+    }
     for (let key in req.body) {
       if (req.body[key] === '') delete req.body[key]
     }
@@ -44,6 +47,12 @@ async function create(req, res) {
 
 async function update(req, res) {
   try {
+    if (req.body.departs === '') {
+      req.body.departs = req.body.currentLocalDateTime
+    }
+    for (let key in req.body) {
+      if (req.body[key] === '') delete req.body[key]
+    }
     const flight = await Flight.findByIdAndUpdate(req.params.flightId, req.body, {new: true})
     res.redirect(`/flights/${flight._id}`)
   } catch (error) {
