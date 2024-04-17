@@ -15,7 +15,12 @@
   <% if (flight.meals.length) { %>
     <ul>
       <% flight.meals.forEach(meal => { %>
-        <li><%= meal.name %></li>
+        <li>
+          <form action="/flights/<%= flight._id %>/meals/<%= meal._id %>?_method=DELETE" method="POST">
+            <%= meal.name %>
+            <button type="submit">🗑️</button>
+          </form>
+        </li>
       <% }) %>
     </ul>
   <% } else { %>

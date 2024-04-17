@@ -129,6 +129,18 @@ async function addMeal(req, res) {
   }
 }
 
+async function removeMeal(req, res) {
+  try {
+    let flight = await Flight.findById(req.params.flightId)
+    flight.meals.remove({_id: req.params.mealId})
+    await flight.save()
+    res.redirect(`/flights/${flight._id}`)
+  } catch (error) {
+    console.log(error)
+    res.redirect('/flights')
+  }
+}
+
 export {
   index,
   show,
@@ -139,5 +151,6 @@ export {
   newFlight as new,
   createTicket,
   deleteTicket,
-  addMeal
+  addMeal,
+  removeMeal
 }

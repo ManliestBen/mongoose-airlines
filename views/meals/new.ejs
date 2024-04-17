@@ -5,6 +5,9 @@
 <main>
   <h1><%= title %></h1>
   <h3>Before adding a new meal, please verify that it is not on the list!</h3>
+  <% if (errMsg) { %>
+    <h1 class="error-message"><%= errMsg %></h1>
+  <% } %>
   <form action="/meals" method="POST">
     <label for="meal-name">Meal:</label>
     <input type="text" name="name" id="meal-name">
