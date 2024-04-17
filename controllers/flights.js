@@ -91,6 +91,30 @@ async function edit(req, res) {
   }
 }
 
+async function createTicket(req, res) {
+  try {
+    let flight = await Flight.findById(req.params.flightId)
+    flight.tickets.push(req.body)
+    await flight.save()
+    res.redirect(`/flights/${flight._id}`)
+  } catch (error) {
+    console.log(error)
+    res.redirect('/flights')
+  }
+}
+
+async function deleteTicket(req, res) {
+  try {
+    let flight = await Flight.findById(req.params.flightId)
+    flight.tickets.remove({_id: req.params.ticketId})
+    await flight.save()
+    res.redirect(`/flights/${flight._id}`)
+  } catch (error) {
+    console.log(error)
+    res.redirect('/flights')
+  }
+}
+
 export {
   index,
   show,
@@ -98,5 +122,7 @@ export {
   deleteFlight as delete,
   update, 
   edit,
-  newFlight as new
+  newFlight as new,
+  createTicket,
+  deleteTicket
 }

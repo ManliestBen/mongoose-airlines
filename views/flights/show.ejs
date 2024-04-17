@@ -11,9 +11,40 @@
   <h2>Airline: <%= flight.airline %></h2>
   <h2>Airport: <%= flight.airport %></h2>
   <h2>Departure: <%= flight.departs.toLocaleString() %></h2>
-  <a href="/flights">
-    <button>Back ⬅️</button>
-  </a>
+  <form method="POST" action="/flights/<%= flight._id %>/tickets">
+    <label for="seat-input">Seat (A1-F99):</label>
+    <input name="seat" id="seat-input" required pattern="[A-F][1-9]\d?">
+    <label for="price-input">Price ($):</label>
+    <input type="number" name="price" id="price-input" required min="0">
+    <button type="submit">Add Ticket 💺</button>
+  </form>
+  <h1>Tickets:</h1>
+  <% if (flight.tickets.length) { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Seat</th>
+          <th>Price</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% flight.tickets.forEach(ticket => { %>
+          <tr>
+            <td><%= ticket.seat %></td>
+            <td>$<%= ticket.price %></td>
+            <td>
+              <form method="POST" action="/flights/<%= flight._id %>/tickets/<%= ticket._id %>?_method=DELETE">
+                <button>🗑️</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <h2>There are no tickets for flight # <%= flight.flightNo %></h2>
+  <% } %>
 </main>
 
 <%- include('../partials/footer') %>
