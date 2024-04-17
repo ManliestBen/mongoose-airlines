@@ -5,7 +5,7 @@ async function index(req, res) {
     const flights = await Flight.find({})
     res.render('flights/index', {
       flights,
-      title: 'Add Flight'
+      title: 'All Flights'
     })
   } catch (error) {
     console.log(error)
@@ -28,6 +28,9 @@ async function show(req, res) {
 
 async function create(req, res) {
   try {
+    for (let key in req.body) {
+      if (req.body[key] === '') delete req.body[key]
+    }
     const flight = await Flight.create(req.body)
     res.redirect(`/flights/${flight._id}`)
   } catch (error) {
@@ -58,8 +61,12 @@ async function deleteFlight(req, res) {
 
 async function newFlight(req, res) {
   try {
+    let offset = new Date().getTimezoneOffset() * 60000
+    let oneYearFromNow = new Date().setFullYear(new Date().getFullYear() + 1)
+    let localISOTime = new Date(oneYearFromNow - offset).toISOString().slice(0, 16)
     res.render('flights/new', {
-      title: 'Add Flight'
+      title: 'Add Flight',
+      defaultDate: localISOTime
     })
   } catch (error) {
     console.log(error)
@@ -70,9 +77,13 @@ async function newFlight(req, res) {
 async function edit(req, res) {
   try {
     const flight = await Flight.findById(req.params.flightId)
-    res.render('flights/new', {
+    let offset = new Date().getTimezoneOffset() * 60000
+    let localISOTime = new Date(flight.departs - offset).toISOString().slice(0, 16)
+    console.log(localISOTime)
+    res.render('flights/edit', {
       title: 'Edit Flight',
-      flight
+      flight,
+      localISOTime
     })
   } catch (error) {
     console.log(error)
