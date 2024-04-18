@@ -20,12 +20,12 @@ body {
   margin-right: 32px;
   text-decoration: none;
   color: var(--highlight);
-  font-size: 2.5vh;
+  font-size: 16px;
   font-weight: bold;
 }
 
 div > img {
-  height: 8vh;
+  height: 50px;
   margin: 0px 16px;
 }
 
@@ -35,7 +35,7 @@ nav {
   justify-content: space-between;
   align-items: center;
   background-color: var(--primary-dark);
-  height: 10%;
+  height: 60px;
   width: 100%;
 }
 
